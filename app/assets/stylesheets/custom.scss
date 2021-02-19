@@ -77,6 +77,18 @@ p {
   }
 }
 
+.nav-flex {
+  display: flex;
+}
+
+.navbar-nav li .dropdown-menu {
+  text-align: center;
+  background: #222222;
+  a {
+    color: #9d9d9d;
+  }
+}
+
 /* footer */
 
 footer {
