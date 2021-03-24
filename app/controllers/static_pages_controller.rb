@@ -2,11 +2,12 @@ class StaticPagesController < ApplicationController
   def home
     if logged_in?
       @micropost  = current_user.microposts.build
+      @unread = current_user.unread_messages_count
       if params[:q]
         @feed_items = Micropost.search_by_keyword(params[:q])
-                               .paginate(page: params[:page])
+                               .k_page(params[:page])
       else
-        @feed_items = current_user.feed.paginate(page: params[:page])
+        @feed_items = current_user.feed.k_page(params[:page])
       end
     end
   end

@@ -1,0 +1,24 @@
+<% if message.user == @talk_to %>
+  <li class="baloon_l message" id="message-<%= message.id %>">
+    <div class="flex-message-user">
+      <span class="message-face-icon"><%= gravatar_for(message.user, size: 50) %></span>
+      <span class="message-user"><%= link_to message.user.name, message.user %></span>
+    </div>
+    <div class="flex-message">
+      <div class="messages-content"><%= message.content %></div>
+      <%= render "messages/message_timestamp", message: message %>
+    </div>
+  </li>
+<% else %>
+  <li class="baloon_r message" id="message-<%= message.id %>">
+    <div class="flex-message">
+      <div class="messages-content"><%= message.content %></div>
+      <div class="messages-timestamp">
+        <%= render "messages/message_timestamp", message: message %>
+        <%= link_to "x", message, method: :delete,
+                                  class: "delete-message",
+                                  data: { confirm: "Are you sure?" } %>
+      </div>
+    </div>
+  </li>
+<% end %>

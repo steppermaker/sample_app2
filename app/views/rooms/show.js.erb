@@ -1,0 +1,4 @@
+if("<%= @page %>" != "last"){
+  $("#chat").prepend("<%= escape_javascript(render(@messages)) %>");
+}
+$("#chat").attr('data-page', "<%= @page %>")

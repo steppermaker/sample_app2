@@ -1,0 +1,7 @@
+first_entry:
+  room: first_room
+  user: michael
+
+second_entry:
+  room: first_room
+  user: lana

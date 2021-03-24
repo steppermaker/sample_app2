@@ -28,6 +28,20 @@ malory:
   activated: true
   activated_at: Time.zone.now
 
+mone:
+  name: mone
+  email: mone@example.gov
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: Time.zone.now
+
+mtwo:
+  name: mtwo
+  email: mtwo@example.gov
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  activated_at: Time.zone.now
+
 non_actived:
   name: Non Actived
   email: ssboss@example.gov

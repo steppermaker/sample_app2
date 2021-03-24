@@ -1,19 +1,24 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
     <%= link_to "sample app", root_path, id: "logo" %>
+    <div class="for-media">
+      <%= link_to root_path do %>
+      <i class="glyphicon glyphicon-home for-media-home"></i>
+      <% end %>
+    </div>
+    <div class="for-media for-media-search">
+      <%= render "shared/search_form", path: root_path %>
+    </div>
     <nav>
+      <div class="menu">
+       <div class="bar bar1"></div>
+       <div class="bar bar2"></div>
+       <div class="bar bar3"></div>
+      </div>
       <ul class="nav navbar-nav navbar-right nav-flex">
         <% if logged_in? %>
           <li class="search-nav">
-            <%= form_tag(root_path, method: :get) do %>
-              <div class="input-group">
-                <%= search_field_tag "q", params[:q], class: "form-control",
-                                          placeholder: "Search keyword..." %>
-                <span class="input-group-btn">
-                  <%= submit_tag "Search", class: "btn btn-default" %>
-                </span>
-              </div>
-            <% end %>
+            <%= render "shared/search_form", path: root_path %>
           </li>
         <% end %>
         <li><%= link_to "Home",   root_path %></li>

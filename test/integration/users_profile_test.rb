@@ -5,6 +5,8 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:michael)
+    @non_following_user = users(:archer)
+    @mutual_follow_user = users(:lana)
   end
 
   test "profile display" do
@@ -14,9 +16,30 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     assert_select 'h1', text: @user.name
     assert_select 'h1>img.gravatar'
     assert_match @user.microposts.count.to_s, response.body
-    assert_select 'div.pagination'
-    @user.microposts.paginate(page: 1).each do |micropost|
+    assert_select 'ul.pagination'
+    @user.microposts.k_page(1).each do |micropost|
       assert_match micropost.content, response.body
     end
+    assert_select 'div#follow_form', count: 0
+    assert_select 'div#room_button', count: 0
+    assert_select 'div.stats>a', text: 'unread message!', count: 0
+  end
+
+  test "profile display when logged in" do
+    log_in_as(@user)
+    get user_path(@user)
+    assert_template 'users/show'
+    assert_select 'div#follow_form', count: 0
+    assert_select 'div#room_button', count: 0
+    assert_match  'unread message!', response.body
+  end
+
+  test "mutual_follow_user profile display when logged in" do
+    log_in_as(@user)
+    get user_path(@mutual_follow_user)
+    assert_template 'users/show'
+    assert_select 'div#follow_form'
+    assert_select 'div#room_button'
+    assert_select 'div.stats>a', text: 'unread message!', count: 0
   end
 end

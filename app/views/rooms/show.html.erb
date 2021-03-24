@@ -1,0 +1,22 @@
+<% provide(:title, "Chat with #{@talk_to.name} ") %>
+<div class="row">
+  <div class="col-md-12">
+    <div id="chats">
+      <ol id="chat" data-page="2">
+        <% if @messages %>
+          <%= render @messages %>
+          <%= paginate @messages %>
+        <% end %>
+      </ol>
+      <div class="posts">
+        <%= form_for(@message) do |f| %>
+          <%= render 'shared/error_messages', object: f.object %>
+          <%= f.hidden_field :room_id, value: @room.id %>
+          <%= f.hidden_field :addressee_user_id, value: @talk_to.id %>
+          <%= f.text_area :content, placeholder: "Message..." %>
+          <%= f.submit "Send message!", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

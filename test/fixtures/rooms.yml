@@ -1,0 +1,5 @@
+first_room:
+  created_at: <%= 10.minutes.ago %>
+
+second_room:
+  created_at: <%= Time.zone.now %>

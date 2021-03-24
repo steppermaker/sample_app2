@@ -1,0 +1,13 @@
+first_message:
+  room: first_room
+  user: michael
+  content: "Hello"
+  addressee_user: archer
+  read: false
+
+second_message:
+    room: first_room
+    user: archer
+    content: "Bye"
+    addressee_user: michael
+    read: false

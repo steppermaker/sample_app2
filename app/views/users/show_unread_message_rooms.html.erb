@@ -1,0 +1,22 @@
+<% provide(:title, "Rooms") %>
+
+<div class="row">
+  <div class="col-md-4">
+  </div>
+  <div class="col-md-8">
+    <%= paginate @messages %>
+    <ul class="rooms">
+      <% @messages.each do |message| %>
+        <li>
+          <h4>
+            <%= gravatar_for(message.user, size: 50) %>
+            <span><%= link_to "#{message.user.name}", message.user %></span>
+          </h4>
+          <%= link_to "New message is here!", room_path(message.room_id),
+                                            class: "btn btn-primary" %>
+        </li>
+      <% end %>
+    </ul>
+    <%= paginate @messages %>
+  </div>
+</div>

@@ -5,20 +5,11 @@
   <div class="col-md-8">
     <h1 class="no-center">All user</h1>
     <div class="search-user">
-      <%= form_tag(users_path, method: :get) do %>
-        <div class="input-group">
-          <%= search_field_tag "q", params[:q], class: "form-control",
-                                    placeholder: "Search user..." %>
-          <span class="input-group-btn">
-            <%= submit_tag "Search", class: "btn btn-default" %>
-          </span>
-        </div>
-      <% end %>
+      <%= render "shared/search_form", path: users_path %>
     </div>
-    <%= will_paginate %>
     <ul class="users">
       <%= render @users %>
     </ul>
-    <%= will_paginate %>
+    <%= paginate @users %>
   </div>
 </div>

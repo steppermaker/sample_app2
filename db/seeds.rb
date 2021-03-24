@@ -26,7 +26,7 @@ users = User.order(:created_at).take(6)
   users.each { |user| user.microposts.create!(content: content) }
 end
 
-# relationshp
+# relationship
 users = User.all
 user  = User.first
 following = users[2..50]
@@ -40,4 +40,20 @@ targeted_micropost = microposts[2..50]
 users_to_like      = User.order(:created_at).take(6)
 users_to_like.each do |user|
   targeted_micropost.each { |micropost| micropost.likes.create!(user_id: user.id) }
+end
+
+# room, entry and messaged
+mutual_users = users[3..22]
+mutual_users.each do |mutual_user|
+  room = Room.create!
+  Entry.create!(room_id: room.id, user_id: user.id)
+  Entry.create!(room_id: room.id, user_id: mutual_user.id)
+
+  5.times do
+    content = Faker::Lorem.sentence(10)
+    Message.create!(user_id: user.id, room_id: room.id, content: content,
+                    addressee_user_id: mutual_user.id, read: false)
+    Message.create!(user_id: mutual_user.id, room_id: room.id, content: content,
+                    addressee_user_id: user.id, read: false)
+  end
 end

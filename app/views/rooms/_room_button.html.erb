@@ -1,0 +1,5 @@
+<% unless current_user?(@user)  %>
+  <div id="room_button">
+    <%= render 'rooms/entering_room' %>
+  </div>
+<% end %>

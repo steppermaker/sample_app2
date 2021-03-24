@@ -1,0 +1,7 @@
+<%= form_tag(path, method: :get, class: "search_form") do %>
+    <%= search_field_tag "q", params[:q], class: "form-control sbox",
+                              placeholder: "Search ..." %>
+    <%= button_tag "Search...", class: "sbtn" do %>
+      <%= content_tag :i, "", class: "glyphicon glyphicon-search"  %>
+    <% end %>
+<% end %>

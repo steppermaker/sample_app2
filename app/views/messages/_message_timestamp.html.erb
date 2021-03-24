@@ -1,0 +1,7 @@
+<% if message.created_at < 1.years.ago %>
+  <%= message.created_at.strftime("%-Y年-%-m月-%d日 %H:%M") %>
+<% elsif message.created_at < 1.days.ago %>
+  <%= message.created_at.strftime("%-m月%-d日 %H:%M") %>
+<% else %>
+  <%= message.created_at.strftime("%H:%M") %>
+<% end %>
