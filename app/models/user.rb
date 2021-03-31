@@ -22,6 +22,7 @@ class User < ApplicationRecord
   }
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email
+  before_save   :downcase_unique_name
   before_create :create_activation_digest
   validates :name,  presence: true , length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -30,6 +31,11 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  VALID_UNIQUE_NAME_REGEX = /\A[a-z0-9_]+\z/i
+  validates :unique_name, presence: true, length: { in: 5..15 },
+                                          format: { with: VALID_UNIQUE_NAME_REGEX},
+                                          uniqueness: { case_sensitive: false }
+
   def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost
@@ -108,14 +114,24 @@ class User < ApplicationRecord
     received_messages.where("read = ?", false)
   end
 
+  def destroy_rooms
+    entries.each do |entry|
+      Room.find(entry.room_id).destroy
+    end
+  end
+
   private
 
     def downcase_email
-      self.email = email.downcase
+      self.email.downcase!
     end
 
     def create_activation_digest
       self.activation_token  = User.new_token
       self.activation_digest = User.digest(activation_token)
+    end
+
+    def downcase_unique_name
+      self.unique_name.downcase!
     end
 end

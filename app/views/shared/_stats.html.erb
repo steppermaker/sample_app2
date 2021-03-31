@@ -12,9 +12,9 @@
     </strong>
     followers
   </a>
-  <% unless @unread.to_i.zero? or @unread.nil? %>
+  <% unless @unread_count.to_i.zero? or @unread_count.nil? %>
     <a href="<%= unread_messages_user_path(@user) %>">
-      <strong><%= @unread %></strong>
+      <strong><%= @unread_count %></strong>
       unread message!
     </a>
   <% end %>

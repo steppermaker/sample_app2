@@ -2,12 +2,12 @@ first_message:
   room: first_room
   user: michael
   content: "Hello"
-  addressee_user: archer
+  addressee_user: lana
   read: false
 
 second_message:
     room: first_room
-    user: archer
+    user: lana
     content: "Bye"
     addressee_user: michael
     read: false

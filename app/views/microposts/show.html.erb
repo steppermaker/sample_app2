@@ -1,0 +1,13 @@
+<% provide(:title, "#{@micropost.content}") %>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <%= render "show_micropost" ,micropost: @micropost %>
+    <% if @replies %>
+      <ol class="microposts">
+        <%= render @replies %>
+      </ol>
+      <%= paginate @replies %>
+    <% end %>
+  </div>
+</div>

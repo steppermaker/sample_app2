@@ -5,6 +5,9 @@
     <%= form_for(@user, url: signup_path) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
+      <%= f.label :unique_name %>
+      <%= f.text_field :unique_name, class: 'form_control'  %>
+
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
 

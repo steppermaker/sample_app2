@@ -3,7 +3,9 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
   def setup
     @user = User.new(name: "Exsample User", email: "user@exsample.com",
-                     password: "foobar", password_confirmation: "foobar")
+                     password: "foobar", password_confirmation: "foobar",
+                     unique_name: "exsample_user")
+    @lana = users(:lana)
   end
 
   test "should be vaild" do
@@ -56,6 +58,11 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  test "unique_name should be present" do
+    @user.unique_name = " "
+    assert_not @user.valid?
+  end
+
   test "authenticated? should return false for a user with nil digest" do
     assert_not @user.authenticated?(:remember, '')
   end
@@ -91,6 +98,28 @@ class UserTest < ActiveSupport::TestCase
     end
     archer.microposts.each do |post_unfollowing|
       assert_not michael.feed.include?(post_unfollowing)
+    end
+  end
+
+  test "associated likes should be destroyed" do
+    assert @lana.likes.count == 1
+    assert_difference "Like.count", -1 do
+      @lana.destroy
+    end
+  end
+
+  test "associated entries should be destroyed" do
+    assert @lana.entries.count == 1
+    assert_difference "Entry.count", -1 do
+      @lana.destroy
+    end
+  end
+
+  test "associated messages should be destroyed" do
+    assert @lana.sent_messages.count == 1
+    assert @lana.received_messages.count == 1
+    assert_difference "Message.count", -2 do
+      @lana.destroy
     end
   end
 end

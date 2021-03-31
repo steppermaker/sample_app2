@@ -34,6 +34,10 @@ textarea {
   }
 }
 
+button:focus, button.btn.btn-default.btn-xs {
+  outline: none;
+}
+
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {
@@ -394,20 +398,50 @@ h1.no-center {
     padding: 10px 0;
     border-top: 1px solid #e8e8e8;
     overflow-wrap: break-word;
+    &:hover {
+      background: #f7f7f7;
+    }
   }
-  .user {
-    margin-top: 5em;
-    padding-top: 0;
+  .shrink_letters {
+    display: inline-block;
+    max-width: 40%;
+    vertical-align: top;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    .unique_name {
+      display: block;
+      color: #777777;
+    }
+    .reply_micropost_unique_name {
+      color: #777777;
+    }
+    .user {
+      margin-top: 5em;
+      padding-top: 0;
+      a , a:hover{
+        color: #000000;
+        font-weight: bold;
+      }
+    }
+  }
+  .destination_unique_name  {
+    display: block;
+    color: #777777;
+  }
+  .timestamp {
+    color: #777777;
   }
   .content {
     display: block;
     margin-left: 60px;
+    font-size: 15px;
     img {
       display: block;
       padding: 5px 0;
     }
   }
-  .timestamp {
+  .show_timestamp {
     color: $gray-light;
     display: block;
     margin-left: 60px;
@@ -428,6 +462,107 @@ span.picture {
   margin-top: 10px;
   input  {
     border: 0;
+  }
+}
+
+a.no_decoration {
+  &:link, &:visited, &:hover, &:active {
+    text-decoration: none;
+    color: #222222;
+  }
+}
+
+.like, .reply, .delete_for_micropost {
+  display: inline-block;
+  margin-left: 8%;
+  button {
+    background: transparent;
+    font-size: 15px;
+    border-radius: 30px;
+    border: none;
+    transition: all 0.25s;
+    margin: 5px 0 0 0;
+  }
+}
+
+.like {
+  margin-left: 60px;
+}
+
+.like_ajx {
+  margin-left: 0;
+}
+
+/* like */
+
+.like_btn:hover, .like_btn:active {
+  background-color: #fbe9e9;
+  color: #ef0953b0;
+}
+
+.unlike_btn:hover, .unlike_btn:active {
+  background-color: #4a353b36;
+  color: gray;
+  .glyphicon-heart {
+    color: gray;
+  }
+}
+
+.glyphicon-heart {
+  color: #d9134a;
+}
+
+/* reply */
+
+.reply_btn:hover, .reply_btn:active {
+  color: #11c0e0;
+  background-color: #47fbda1f;
+}
+
+.reply_form {
+  display: none;
+  .reply_text_area {
+    height: 150px;
+    border-radius: 17px;
+  }
+
+  .reply_form_button {
+    width: 150px;
+    float: right;
+  }
+
+  .reply_picture {
+    float: left;
+    margin-top: 0px;
+  }
+
+  .login_or_new_user {
+    text-align: center;
+  }
+}
+
+
+
+/* micropost page */
+
+.show_micropost {
+  font-size: 22px !important;
+}
+
+.show_micropost_status {
+  border-bottom: 1px solid #77777777;
+  border-top: 1px solid #77777777;
+  margin: 10px 60px;
+  b {
+    color: black;
+  }
+  .counts {
+    display: inline-block;
+    font-size: 15px;
+    margin: 10px 5%;
+    a, a:hover {
+      color: #777777;
+    }
   }
 }
 

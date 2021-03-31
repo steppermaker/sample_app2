@@ -8,6 +8,7 @@ class Room < ApplicationRecord
         return entry.user
       end
     end
+    return current_user
   end
 
   def toggle_read(user)

@@ -34,4 +34,15 @@ class UserEditTest < ActionDispatch::IntegrationTest
     assert_equal name,  @user.name
     assert_equal email, @user.email
   end
+
+  test "the user's rooms should be destroyed" do
+    log_in_as(@user)
+    lana = users(:lana)
+    lana.entries.each do |entry|
+      assert  Room.find(entry.room_id)
+    end
+    assert_difference "Room.count", -1 do
+      delete user_path(lana)
+    end
+  end
 end

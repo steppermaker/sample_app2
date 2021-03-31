@@ -24,6 +24,9 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     assert_difference 'User.count', -1 do
       delete user_path(@non_admin)
     end
+    non_admin = @non_admin
+    assert_select "a[href=?]", user_path(non_admin.id),
+                               text: non_admin.name, count: 0
   end
 
   test "index as non-admin" do

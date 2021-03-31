@@ -14,10 +14,10 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.k_page(params[:page])
+    @microposts = @user.microposts.includes(:user).k_page(params[:page])
     if logged_in?
       room_switch(@user)
-      @unread = current_user.unread_messages_count if current_user?(@user)
+      @unread_count = current_user.unread_messages_count if current_user?(@user)
     end
     redirect_to root_url and return unless @user.activated?
   end
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(user_params)
+    if @user.update_attributes(user_params_for_update)
       flash[:success] = "Profile update"
       redirect_to @user
     else
@@ -50,7 +50,9 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
+    @user = User.find(params[:id])
+    @user.destroy_rooms if @user.entries.present?
+    @user.destroy
     flash[:success] = "User deleted"
     redirect_to users_url
   end
@@ -79,7 +81,14 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:name, :email, :password,
-                                    :password_confirmation)
+                                   :password_confirmation,
+                                   :unique_name)
+    end
+
+    def user_params_for_update
+      params.require(:user).permit(:name, :email, :password,
+                                   :password_confirmation)
+
     end
 
     def correct_user

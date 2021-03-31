@@ -1,16 +1,103 @@
 <li id="micropost-<%= micropost.id %>" >
   <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
-  <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
-  <span class="content">
-    <%= micropost.content %>
-    <%= image_tag micropost.picture.url if micropost.picture? %>
+
+  <% if micropost.reply_to.present? %>
+
+    <span class="shrink_letters">
+      <span class="user">
+        <%= link_to micropost.user.name, micropost.user %>
+      </span>
+      <span class="reply_micropost_unique_name">
+        @<%= micropost.user.unique_name %>
+      </span>
+    </span>
+    <span class="timestamp">·
+      <% if micropost.created_at < 1.years.ago %>
+        <%= micropost.created_at.strftime("%-Y年-%-m月-%d日") %>
+      <% elsif micropost.created_at < 1.days.ago %>
+        <%= micropost.created_at.strftime("%-m月%-d日") %>
+      <% else %>
+        <%= micropost.created_at.strftime("%-m月%-d日%H:%M") %>
+      <% end %>
+    </span>
+    <span class="destination_unique_name">
+      Reply_to: @<%= link_to micropost.reply_to.user.unique_name,
+                             micropost.reply_to.user %>
+    </span>
+
+  <% else %>
+
+    <span class="shrink_letters">
+      <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
+      <span class="unique_name">@<%= micropost.user.unique_name %></span>
+    </span>
+    <span class="timestamp">·
+      <% if micropost.created_at < 1.years.ago %>
+        <%= micropost.created_at.strftime("%-Y年-%-m月-%d日") %>
+      <% elsif micropost.created_at < 1.days.ago %>
+        <%= micropost.created_at.strftime("%-m月%-d日") %>
+      <% else %>
+        <%= micropost.created_at.strftime("%H:%M") %>
+      <% end %>
+    </span>
+  <% end %>
+  <%= link_to(micropost, class: "no_decoration") do %>
+    <span class="content">
+      <%= micropost.content %>
+      <%= image_tag micropost.picture.url if micropost.picture? %>
+    </span>
+  <% end %>
+
+  <span class="like">
+    <% if micropost.like?(current_user) %>
+      <%= form_for(micropost.likes.find_by(user_id: current_user.id), method: :delete, remote: true) do |f| %>
+        <%= button_tag(class: "btn btn-default btn-xs unlike_btn") do %>
+          <%= content_tag :i, "", class: "glyphicon glyphicon-heart"  %>
+          <%= content_tag :span, "#{micropost.likes_count}"%>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= form_for(micropost.likes.build, remote: true) do |f| %>
+        <div><%= hidden_field_tag :micropost_id, micropost.id %></div>
+        <%= button_tag(class: "btn btn-default btn-xs like_btn") do %>
+          <%= content_tag :i, "", class: "glyphicon glyphicon-heart-empty",
+                                  aria: { hidden: true } %>
+          <%= content_tag :span, "#{micropost.likes_count}" %>
+        <% end %>
+      <% end %>
+    <% end %>
   </span>
-  <span class="timestamp">
-    Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+  <span class="reply">
+    <%= button_tag(class: "btn btn-default btn-xs reply_btn") do %>
+      <%= content_tag :i , "", class: "glyphicon glyphicon-comment",
+                               aria: { hidden: true } %>
+      <%= content_tag :sapn, "#{micropost.replies.count}" %>
+    <% end %>
+  </span>
+  <span class="delete_for_micropost">
     <% if current_user?(micropost.user) %>
       <%= link_to "delete", micropost, method: :delete,
                                        date: { confirm: "Are you sure?" }%>
     <% end %>
   </span>
-  <%= render 'microposts/like_form', micropost: micropost %>
+  <div class="reply_form">
+    <%= button_tag "x", class: "close_reply_form" %>
+    <% if logged_in? %>
+      <%= form_for(current_user.microposts.build) do |f| %>
+        <%= hidden_field_tag :destination_id, micropost.id %>
+        <%= f.text_area :content, placeholder: "Compose for reply...",
+                                  class: "reply_text_area"%>
+        <%= f.submit "Reply", class: "btn btn-primary reply_form_button" %>
+        <span class="picture reply_picture">
+          <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png'%>
+        </span>
+      <% end %>
+    <% else %>
+      <div class="login_or_new_user">
+        <h2>Reply and join the conversation! </h2>
+        <%= link_to "Sign up now!", signup_path, class: "btn btn-primary" %>
+        <%= link_to "Log in now!", login_path, class: "btn btn-primary login_button" %>
+      </div>
+    <% end %>
+  </div>
 </li>

@@ -37,6 +37,7 @@ class RoomsController < ApplicationController
 
     def only_mutual_follow_users
       @user = User.find(params[:user_id])
+      redirect_to(root_url) and return if current_user?(@user)
       redirect_to(root_url) unless current_user.mutual_follow?(@user)
     end
 end

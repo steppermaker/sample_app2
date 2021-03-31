@@ -1,0 +1,76 @@
+<div id="micropost-<%= micropost.id %>" class="microposts" >
+  <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
+  <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
+  <span class="content show_micropost">
+    <%= micropost.content %>
+    <%= image_tag micropost.picture.url if micropost.picture? %>
+  </span>
+  <span class="show_timestamp">
+    Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+    <% if current_user?(micropost.user) %>
+      <%= link_to "delete", micropost, method: :delete,
+                                       date: { confirm: "Are you sure?" } %>
+    <% end %>
+  </span>
+
+  <div class="show_micropost_status">
+    <span class="counts">
+      <%= link_to likes_micropost_path(micropost) do %>
+        <b><%= micropost.likes_count %></b> likes
+      <% end %>
+    </span>
+    <span class="counts">
+      <b><%= micropost.replies.count %></b> replies
+    </span>
+  </div>
+
+  <div class="micropost_status">
+    <span class="like">
+      <% if micropost.like?(current_user) %>
+        <%= form_for(micropost.likes.find_by(user_id: current_user.id), method: :delete, remote: true) do |f| %>
+          <%= button_tag(class: "btn btn-default btn-xs unlike_btn") do %>
+            <%= content_tag :i, "", class: "glyphicon glyphicon-heart"  %>
+            <%= content_tag :span, "#{micropost.likes_count}"%>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= form_for(micropost.likes.build, remote: true) do |f| %>
+          <div><%= hidden_field_tag :micropost_id, micropost.id %></div>
+          <%= button_tag(class: "btn btn-default btn-xs like_btn") do %>
+            <%= content_tag :i, "", class: "glyphicon glyphicon-heart-empty",
+                                    aria: { hidden: true } %>
+            <%= content_tag :span, "#{micropost.likes_count}" %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </span>
+    <span class="reply">
+      <%= button_tag(class: "btn btn-default btn-xs reply_btn") do %>
+        <%= content_tag :i , "", class: "glyphicon glyphicon-comment",
+                                 aria: { hidden: true } %>
+        <%= content_tag :sapn, "#{micropost.replies.count}" %>
+      <% end %>
+    </span>
+  </div>
+
+  <div class="reply_form">
+    <%= button_tag "x", class: "close_reply_form" %>
+    <% if logged_in? %>
+      <%= form_for(current_user.microposts.build) do |f| %>
+        <%= hidden_field_tag :destination_id, micropost.id %>
+        <%= f.text_area :content, placeholder: "Compose for reply...",
+                                  class: "reply_text_area"%>
+        <%= f.submit "Reply", class: "btn btn-primary reply_form_button" %>
+        <span class="picture reply_picture">
+          <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png'%>
+        </span>
+      <% end %>
+    <% else %>
+      <div class="login_or_new_user">
+        <h2>Reply and join the conversation! </h2>
+        <%= link_to "Sign up now!", signup_path, class: "btn btn-primary" %>
+        <%= link_to "Log in now!", login_path, class: "btn btn-primary login_button" %>
+      </div>
+    <% end %>
+  </div>
+</div>

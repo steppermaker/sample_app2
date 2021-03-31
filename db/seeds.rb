@@ -5,7 +5,8 @@ User.create!(name: "Example User",
              password_confirmation: "foobar",
              admin: true,
              activated: true,
-             activated_at: Time.zone.now )
+             activated_at: Time.zone.now,
+             unique_name: "exsample_user")
 
 99.times do |n|
   name  = Faker::Name.name
@@ -16,7 +17,8 @@ User.create!(name: "Example User",
                password:              password,
                password_confirmation: password,
                activated: true,
-               activated_at: Time.zone.now)
+               activated_at: Time.zone.now,
+               unique_name: "sample_#{n+1}")
 end
 
 # micropost
@@ -36,7 +38,7 @@ followers.each { |follower| follower.follow(user) }
 
 # like
 microposts = Micropost.all
-targeted_micropost = microposts[2..50]
+targeted_micropost = microposts[0..49]
 users_to_like      = User.order(:created_at).take(6)
 users_to_like.each do |user|
   targeted_micropost.each { |micropost| micropost.likes.create!(user_id: user.id) }
@@ -57,3 +59,12 @@ mutual_users.each do |mutual_user|
                     addressee_user_id: user.id, read: false)
   end
 end
+
+# reply
+micropost = Micropost.all
+first = micropost[0]
+first_replys = micropost[292..293]
+second = micropost[1]
+second_replys = micropost[294..295]
+first_replys.each { |micropost| first.add_reply(micropost) }
+second_replys.each { |micropost| second.add_reply(micropost)}

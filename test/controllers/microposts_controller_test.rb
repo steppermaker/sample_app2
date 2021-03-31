@@ -28,4 +28,16 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to root_url
   end
+
+  test "should redirect create for wrong destination" do
+    log_in_as(users(:michael))
+    micropost = microposts(:ants)
+    assert_difference "Reply.count" do
+      post microposts_path, params: { micropost: { content: "Lorem" },
+                                    destination_id: micropost.id}
+    end
+    reply = Micropost.first
+    assert micropost.has_reply?(reply)
+    assert_redirected_to micropost_path(micropost)
+  end
 end

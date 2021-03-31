@@ -29,4 +29,22 @@ class MicropostTest < ActiveSupport::TestCase
   test "order should be most recent firet" do
     assert_equal microposts(:most_recent), Micropost.first
   end
+
+  test "should reply" do
+    destination = microposts(:ants)
+    reply_micropost = microposts(:zone)
+    assert_not destination.has_reply?(reply_micropost)
+    destination.add_reply(reply_micropost)
+    assert destination.has_reply?(reply_micropost)
+    assert reply_micropost.reply_to == destination
+  end
+
+  test "associated reply should be deleted" do
+    destination = microposts(:ants)
+    reply_micropost = microposts(:zone)
+    destination.add_reply(reply_micropost)
+    assert_difference "Reply.count",-1 do
+      destination.destroy
+    end
+  end
 end

@@ -1,4 +1,4 @@
-$(function(){
+$(document).on('turbolinks:load', function(){
   $('.menu').click(function(){
     $(this).toggleClass('toggle');
     $('.nav-flex').toggle();
