@@ -4,7 +4,7 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
-    if Entry.where(user_id: current_user.id, room_id: @room.id).present?
+    if Entry.where(user_id: current_user.id, room_id: @room.id).exists?
       @talk_to = @room.talking_user(current_user)
       if current_user.mutual_follow?(@talk_to)
         @messages = @room.messages.includes(:user).k_page(params[:page])

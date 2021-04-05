@@ -1,1 +1,6 @@
 $("#micropost-<%= @micropost.id %> .like").html("<%= escape_javascript(render('microposts/like_form', micropost: @micropost)) %>");
+$("#micropost-<%= @micropost.id %> .like").find('.like_btn').on('click', function() {
+  $(this).addClass("stop");
+  $(this).off('click');
+  console.log("D")
+});

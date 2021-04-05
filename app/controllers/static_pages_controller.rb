@@ -9,6 +9,8 @@ class StaticPagesController < ApplicationController
       else
         @feed_items = current_user.feed.k_page(params[:page])
       end
+    else
+      @microposts = Micropost.includes(:user).k_page(params[:page])
     end
   end
 

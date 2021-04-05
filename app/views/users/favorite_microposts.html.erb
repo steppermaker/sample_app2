@@ -1,0 +1,13 @@
+<% provide(:title, "Favorite microposts") %>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="flex-microposts">
+      <h1>Favorite microposts</h1>
+      <ol class="microposts">
+        <%= render @microposts %>
+      </ol>
+      <%= paginate @microposts %>
+    </div>
+  </div>
+</div>

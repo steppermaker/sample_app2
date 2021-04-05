@@ -5,11 +5,12 @@ class Micropost < ApplicationRecord
   has_many :destinations, class_name: "Reply",
                           foreign_key: "destination_id",
                           dependent: :destroy
-  has_one :reply_microposts, class_name: "Reply", foreign_key: "reply_micropost_id",
-                                                  dependent: :delete
+  has_one :reply_micropost, class_name: "Reply",
+                             foreign_key: "reply_micropost_id",
+                             dependent: :destroy
   has_many :replies, ->{ reorder(created_at: :asc) },
                      through: :destinations, source: :reply_micropost
-  has_one :reply_to, through: :reply_microposts, source: :destination
+  has_one :reply_to, through: :reply_micropost, source: :destination
 
   default_scope -> { order(created_at: :desc) }
   scope :search_by_keyword, -> (keyword) {

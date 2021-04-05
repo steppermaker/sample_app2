@@ -41,7 +41,7 @@ class MicropostsController < ApplicationController
   def likes
     @micropost = Micropost.find(params[:id])
     @like_users = @micropost.like_users.k_page(params[:page])
-    render 'show_micropost_likes'
+    render 'micropost_likes'
   end
 
   private

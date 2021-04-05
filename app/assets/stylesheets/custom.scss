@@ -77,6 +77,7 @@ p {
   letter-spacing: -1px;
   padding-top: 9px;
   font-weight: bold;
+  text-decoration: none;
   &:hover {
     color: white;
     text-decoration: none;
@@ -141,7 +142,7 @@ p {
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .nav-flex {
     display: none;
     li {
@@ -173,6 +174,9 @@ p {
   background: #222222;
   a {
     color: #9d9d9d;
+    &:hover {
+      color: #222222
+    }
   }
 }
 
@@ -368,6 +372,79 @@ input {
   margin-left: 0;
 }
 
+/* Home  login_required */
+
+.show_login_required {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  width: 100%;
+  height: 100%;
+  background: #0000007a;
+  left: 0;
+  top: 0;
+  .login_required_display {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 400px;
+    background: antiquewhite;
+    width: 500px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 auto;
+    z-index: 100;
+    h1 {
+      font-size: 3em;
+      margin-bottom: 30px;
+    }
+    .login_or_new_user {
+      text-align: center;
+      a {
+        align-items: center;
+        text-align: center;
+        width: 70%;
+        height: 40px;
+        margin: 15px auto;
+        font-size: 20px;
+        line-height: 1em;
+        display: block;
+      }
+    }
+  }
+}
+
+
+.close_show_login_required {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  border: none;
+  border-radius: 20px;
+  color: #009def;
+  font-size: 3em;
+  line-height: 1em;
+  :hover {
+    color: #009def;
+    background-color: aqua;
+  }
+}
+
+
+
+
+@media screen and (max-width: 576px) {
+  .show_login_required {
+    .login_required_display {
+
+    width: 100%;
+    height:100%;
+    border-radius: 0;
+    }
+  }
+}
+
 /* Users index */
 .users {
   list-style: none;
@@ -392,14 +469,19 @@ h1.no-center {
 /* microposts */
 
 .microposts {
+  width: 80%;
   list-style: none;
   padding: 0;
   li {
-    padding: 10px 0;
-    border-top: 1px solid #e8e8e8;
+    padding: 10px;
+    border: solid #e8e8e8;
+    border-width: 1px 1px 0 1px;
     overflow-wrap: break-word;
     &:hover {
       background: #f7f7f7;
+    }
+    &:last-child {
+      border-bottom: 1px solid #e8e8e8;
     }
   }
   .shrink_letters {
@@ -441,23 +523,22 @@ h1.no-center {
       padding: 5px 0;
     }
   }
-  .show_timestamp {
-    color: $gray-light;
-    display: block;
-    margin-left: 60px;
-    .gravatar {
-      float: left;
-      margin-right: 10px;
-      margin-top:  5px;
-    }
-  }
 }
+
+.show_content {
+  display: block;
+  margin-left: 60px;
+  font-size: 2em;
+  font-weight: lighter;
+}
+
 aside {
   textarea {
     height: 100px;
     margin-bottom: 5px;
   }
 }
+
 span.picture {
   margin-top: 10px;
   input  {
@@ -472,7 +553,13 @@ a.no_decoration {
   }
 }
 
-.like, .reply, .delete_for_micropost {
+.flex-microposts {
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+}
+
+.like, .reply, .edit_micropost {
   display: inline-block;
   margin-left: 8%;
   button {
@@ -485,6 +572,24 @@ a.no_decoration {
   }
 }
 
+.edit_micropost {
+  position: relative;
+}
+
+.edit_micropost_screen {
+  display: none;
+  position: absolute;
+  width: 100px;
+  top: 0;
+  left: 0;
+  background: white;
+  border: 1px solid #c0c0c0;
+  border-radius: 5px;
+  box-shadow: 0 0 8px 0px #a1a1a1bf;
+}
+
+/* like */
+
 .like {
   margin-left: 60px;
 }
@@ -493,7 +598,19 @@ a.no_decoration {
   margin-left: 0;
 }
 
-/* like */
+.stop {
+  pointer-events: none;
+}
+
+.like_btn, .unlike_btn {
+  .glyphicon {
+    pointer-events: none;
+  }
+}
+
+.likes_count {
+  pointer-events: none;
+}
 
 .like_btn:hover, .like_btn:active {
   background-color: #fbe9e9;
@@ -528,20 +645,17 @@ a.no_decoration {
 
   .reply_form_button {
     width: 150px;
-    float: right;
   }
 
   .reply_picture {
-    float: left;
     margin-top: 0px;
-  }
-
-  .login_or_new_user {
-    text-align: center;
   }
 }
 
-
+.flex-reply-from {
+  display: flex;
+  justify-content: space-between;
+}
 
 /* micropost page */
 
@@ -552,14 +666,15 @@ a.no_decoration {
 .show_micropost_status {
   border-bottom: 1px solid #77777777;
   border-top: 1px solid #77777777;
-  margin: 10px 60px;
+  margin: 10px 0;
+  padding-left: 60px;
   b {
     color: black;
   }
   .counts {
     display: inline-block;
     font-size: 15px;
-    margin: 10px 5%;
+    margin: 10px 8% 10px 0;
     a, a:hover {
       color: #777777;
     }
@@ -653,13 +768,6 @@ a.no_decoration {
   }
 }
 
-
-/* login_form */
-
-.login_form {
-  margin: 0 10px;
-}
-
 /* unread_messages_rooms */
 
 .rooms {
@@ -671,5 +779,14 @@ a.no_decoration {
       margin-top: 5px;
       margin-bottom: 5px;
     }
+  }
+}
+
+/* user#show */
+
+.user_button {
+  display: flex;
+  div {
+    margin: 10px 10px 0 0;
   }
 }

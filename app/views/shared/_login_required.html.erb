@@ -1,0 +1,10 @@
+<div class="show_login_required">
+  <div class="login_required_display center jumbotron">
+    <%= button_tag "×", class: "close_show_login_required" %>
+    <div class="login_or_new_user">
+      <h1>Reply and join the conversation! </h1>
+      <%= link_to "Sign up now!", signup_path, class: "btn btn-primary" %>
+      <%= link_to "Log in now!", login_path, class: "btn btn-primary login_button" %>
+    </div>
+  </div>
+</div>

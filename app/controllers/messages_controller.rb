@@ -29,10 +29,10 @@ class MessagesController < ApplicationController
       redirect_to root_url and return if current_user.id == params[:message][:addressee_user_id].to_i
       entry = Entry.where(user_id: current_user.id,
                           room_id: params[:message][:room_id])
-      redirect_to root_url and return unless entry.present?
+      redirect_to root_url and return unless entry.exists?
       addressee_user_entry =  Entry.where(user_id: params[:message][:addressee_user_id],
                                           room_id: params[:message][:room_id])
-      redirect_to root_url unless addressee_user_entry.present?
+      redirect_to root_url unless addressee_user_entry.exists?
     end
 
     def correct_user

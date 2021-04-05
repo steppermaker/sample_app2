@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index ,:edit, :update, :destroy,
-                                        :following, :followers, :new_messages]
-  before_action :correct_user,   only: [:edit, :update, :new_messages]
+                                        :following, :followers,
+                                        :new_messages, :likes]
+  before_action :correct_user,   only: [:edit, :update, :new_messages,
+                                        :likes]
   before_action :admin_user,     only: :destroy
 
   def index
@@ -75,6 +77,11 @@ class UsersController < ApplicationController
     @messages = current_user.unread_messages.select(:room_id, :user_id)
                          .distinct.k_page(params[:page])
     render 'show_unread_message_rooms'
+  end
+
+  def likes
+    @microposts = @user.likes_microposts.includes(:user).k_page(params[:page])
+    render 'favorite_microposts'
   end
 
   private
