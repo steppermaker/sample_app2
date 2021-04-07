@@ -26,6 +26,7 @@ class RoomInterfaceTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_template 'rooms/show'
     assert_select 'ol#chat'
+    assert_select 'div.flex-reverse-messages'
     assert_select 'div.posts'
     room = assigns(:room)
 
@@ -40,6 +41,11 @@ class RoomInterfaceTest < ActionDispatch::IntegrationTest
                                                addressee_user_id: @user.id} }
     end
 
+    assert_no_difference 'Message.count' do
+      post messages_path, params: { message: { room_id: 1000, content: "test",
+                                               addressee_user_id: @user.id} }
+    end
+
 
     assert_difference 'Message.count' do
       post messages_path, params: { message: { room_id: room.id, content: "test",
@@ -47,10 +53,10 @@ class RoomInterfaceTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to room_url(room)
     follow_redirect!
-    assert_select 'li.baloon_r'
+    assert_select 'li.balloon_r'
     assert_select 'a.delete-message'
 
-    message = Message.last
+    message = Message.first
     assert_difference 'Message.count',-1 do
       delete message_path(message)
     end

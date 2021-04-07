@@ -23,7 +23,7 @@ class ReplyMessagesTest < ActionDispatch::IntegrationTest
     reply_micropost = assigns(:micropost)
     assert_redirected_to micropost_path(@micropost)
     follow_redirect!
-    assert_select "span.content", text: "test"
+    assert_select "div.content", text: "test"
     assert_difference 'Reply.count', -1 do
       delete micropost_path(reply_micropost)
     end

@@ -16,7 +16,7 @@ class MicropostsController < ApplicationController
       @destination = Micropost.find(destination_id)
       if @micropost.save
         @destination.add_reply(@micropost)
-        flash[:seccess] = "Micropost created!"
+        flash[:success] = "Micropost created!"
         redirect_to @destination
       else
         redirect_to @destination

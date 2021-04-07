@@ -4,7 +4,9 @@
     <div id="chats">
       <ol id="chat" data-page="2">
         <% if @messages %>
+        <div class="flex-reverse-messages">
           <%= render @messages %>
+        </div>
           <%= paginate @messages %>
         <% end %>
       </ol>
@@ -14,7 +16,7 @@
           <%= f.hidden_field :room_id, value: @room.id %>
           <%= f.hidden_field :addressee_user_id, value: @talk_to.id %>
           <%= f.text_area :content, placeholder: "Message..." %>
-          <%= f.submit "Send message!", class: "btn btn-primary" %>
+          <%= f.submit "Send", class: "btn btn-primary message-form-btn" %>
         <% end %>
       </div>
     </div>

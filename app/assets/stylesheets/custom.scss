@@ -435,15 +435,24 @@ input {
 
 
 @media screen and (max-width: 576px) {
-  .show_login_required {
-    .login_required_display {
-
+  .login_required_display {
     width: 100%;
     height:100%;
     border-radius: 0;
+  }
+  .microposts {
+    width: 100%!important;
+    li {
+      border-width: 1px 0 0 0!important;
     }
   }
+  .col-md-8 {
+    padding: 0;
+  }
+
 }
+
+
 
 /* Users index */
 .users {
@@ -486,16 +495,15 @@ h1.no-center {
   }
   .shrink_letters {
     display: inline-block;
-    max-width: 40%;
     vertical-align: top;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     .unique_name {
-      display: block;
       color: #777777;
     }
     .reply_micropost_unique_name {
+      display: block;
       color: #777777;
     }
     .user {
@@ -515,14 +523,29 @@ h1.no-center {
     color: #777777;
   }
   .content {
-    display: block;
-    margin-left: 60px;
     font-size: 15px;
+    word-break: break-all;
+    white-space: pre-wrap;
     img {
       display: block;
       padding: 5px 0;
     }
   }
+}
+
+.micropost_display {
+  display: flex;
+}
+
+.micropost_component {
+  width: 100%;
+  min-width:0;
+  display: flex;
+  flex-flow: column;
+}
+
+.btns_for_micropost {
+
 }
 
 .show_content {
@@ -539,12 +562,6 @@ aside {
   }
 }
 
-span.picture {
-  margin-top: 10px;
-  input  {
-    border: 0;
-  }
-}
 
 a.no_decoration {
   &:link, &:visited, &:hover, &:active {
@@ -561,7 +578,7 @@ a.no_decoration {
 
 .like, .reply, .edit_micropost {
   display: inline-block;
-  margin-left: 8%;
+  margin-right: 8%;
   button {
     background: transparent;
     font-size: 15px;
@@ -589,14 +606,6 @@ a.no_decoration {
 }
 
 /* like */
-
-.like {
-  margin-left: 60px;
-}
-
-.like_ajx {
-  margin-left: 0;
-}
 
 .stop {
   pointer-events: none;
@@ -642,17 +651,11 @@ a.no_decoration {
     height: 150px;
     border-radius: 17px;
   }
-
   .reply_form_button {
-    width: 150px;
-  }
-
-  .reply_picture {
-    margin-top: 0px;
   }
 }
 
-.flex-reply-from {
+.flex-micropost-form {
   display: flex;
   justify-content: space-between;
 }
@@ -693,7 +696,26 @@ a.no_decoration {
   }
 }
 
-.messages-content {
+.posts {
+  min-width: 300px;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.new_message {
+  display: flex;
+  textarea {
+    margin: 0;
+  }
+}
+
+.message-form-btn {
+  width: 50px;
+  padding: 0;
+  margin-left: 10px;
+}
+
+.message-content {
   max-width: 70%;
   position: relative;
   padding: 10px 13px 10px 13px;
@@ -711,7 +733,6 @@ a.no_decoration {
 }
 
 .flex-message {
-  width: 100%;
   display: flex;
   flex-flow: column;
 }
@@ -719,7 +740,8 @@ a.no_decoration {
 .flex-message-user {
   display: flex;
   flex-flow: column;
-  margin-right: 5px;
+  margin-right: 12px;
+  width: 60px;
 }
 
 .delete-message {
@@ -727,45 +749,45 @@ a.no_decoration {
   color: red;
 }
 
-.baloon_l, .baloon_r {
+.balloon_l, .balloon_r {
   margin: 40px 0 0 0;
   display: flex;
   align-items: flex-start;
 }
 
-.baloon_l {
+.balloon_l {
   justify-content: flex-start;
-  .messages-content {
+  .message-content {
     background-color: #d7d6d6;
   }
-  .messages-content:after {
+  .message-content:after {
     left: -26px;
     border-right: 22px solid #d7d6d6;
-    .faceicon {
-      margin-right: 25px
-    }
-  }
-  .messages-timestamp {
   }
 }
 
-.baloon_r {
+.balloon_r {
   justify-content: flex-end;
-  margin-right: 20px;
+  margin-right: 16px;
   .flex-message {
     justify-content: flex-end;
-    .messages-content {
+    .message-content {
       align-self: flex-end;
       background-color: #caf9f9;
     }
-    .messages-content::after {
+    .message-content::after {
       right: -26px;
       border-left: 22px solid #caf9f9;
     }
-    .messages-timestamp {
+    .message-timestamp {
       align-self: flex-end;
     }
   }
+}
+
+.flex-reverse-messages {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 /* unread_messages_rooms */
@@ -789,4 +811,8 @@ a.no_decoration {
   div {
     margin: 10px 10px 0 0;
   }
+}
+
+input#micropost_picture {
+  display: none;
 }

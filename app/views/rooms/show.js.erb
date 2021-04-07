@@ -1,4 +1,6 @@
 if("<%= @page %>" != "last"){
-  $("#chat").prepend("<%= escape_javascript(render(@messages)) %>");
+  $("#chat").prepend("<div class='flex-reverse-messages'>" +
+                       "<%= escape_javascript(render(@messages)) %>" +
+                     "</div>");
 }
 $("#chat").attr('data-page', "<%= @page %>")

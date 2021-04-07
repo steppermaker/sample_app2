@@ -1,102 +1,90 @@
 <li id="micropost-<%= micropost.id %>" >
-  <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
-
-  <% if micropost.reply_micropost.present? %>
-
-    <span class="shrink_letters">
-      <span class="user">
-        <%= link_to micropost.user.name, micropost.user %>
-      </span>
-      <span class="reply_micropost_unique_name">
-        @<%= micropost.user.unique_name %>
-      </span>
-    </span>
-    <span class="timestamp">·
-      <% if micropost.created_at < 1.years.ago %>
-        <%= micropost.created_at.strftime("%-Y年-%-m月-%d日") %>
-      <% elsif micropost.created_at < 1.days.ago %>
-        <%= micropost.created_at.strftime("%-m月%-d日") %>
-      <% else %>
-        <%= micropost.created_at.strftime("%-m月%-d日%H:%M") %>
-      <% end %>
-    </span>
-    <span class="destination_unique_name">
-      Reply_to: @<%= link_to micropost.reply_to.user.unique_name,
-                             micropost.reply_to.user %>
-    </span>
-
-  <% else %>
-
-    <span class="shrink_letters">
-      <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
-      <span class="unique_name">@<%= micropost.user.unique_name %></span>
-    </span>
-    <span class="timestamp">·
-      <% if micropost.created_at < 1.years.ago %>
-        <%= micropost.created_at.strftime("%-Y年-%-m月-%d日") %>
-      <% elsif micropost.created_at < 1.days.ago %>
-        <%= micropost.created_at.strftime("%-m月%-d日") %>
-      <% else %>
-        <%= micropost.created_at.strftime("%H:%M") %>
-      <% end %>
-    </span>
-
-  <% end %>
-
-  <%= link_to(micropost, class: "no_decoration") do %>
-    <span class="content">
-      <%= micropost.content %>
-      <%= image_tag micropost.picture.url if micropost.picture? %>
-    </span>
-  <% end %>
-
-  <span class="like">
-    <% if logged_in? && micropost.likes.find_by(user_id: current_user.id) %>
-      <%= form_for(micropost.likes.find_by(user_id: current_user.id), method: :delete, remote: true) do |f| %>
-        <%= button_tag(class: "btn btn-default btn-xs unlike_btn like_btns") do %>
-          <%= content_tag :i, "", class: "glyphicon glyphicon-heart"  %>
-          <%= content_tag :span, "#{micropost.likes_count}", class: "likes_count" %>
-        <% end %>
-      <% end %>
-    <% else %>
-      <%= form_for(micropost.likes.build, remote: true) do |f| %>
-        <div><%= hidden_field_tag :micropost_id, micropost.id %></div>
-        <%= button_tag(class: "btn btn-default btn-xs like_btn like_btns
-                              #{'login_required' unless logged_in?}",
-                              data: { btn: 'like' }) do %>
-          <%= content_tag :i, "", class: "glyphicon glyphicon-heart-empty",
-                                  aria: { hidden: true } %>
-          <%= content_tag :span, "#{micropost.likes_count}", class: "likes_count" %>
-        <% end %>
-      <% end %>
-    <% end %>
-  </span>
-  <span class="reply">
-    <%= button_tag(class: "btn btn-default btn-xs reply_btn
-                          #{'login_required' unless logged_in?}",
-                          data: { btn: 'reply' }) do %>
-      <%= content_tag :i , "", class: "glyphicon glyphicon-comment",
-                               aria: { hidden: true } %>
-      <%= content_tag :sapn, "#{micropost.replies_count}" %>
-    <% end %>
-  </span>
-  <span class="edit_micropost">
-    <% if current_user?(micropost.user) %>
-
-      <%= button_tag(class: "btn btn-default btn-xs edit_btn") do %>
-        <%= content_tag :i, "", class: "glyphicon glyphicon-edit" %>
-      <% end %>
-      <div class="edit_micropost_screen">
-        <%= form_for(micropost, method: :delete) do |f| %>
-          <%= button_tag(class: "btn  btn-xs" ) do %>
-            <%= content_tag :i, "", class: "glyphicon glyphicon-trash",
-                                    aria: { hidden: true } %>
-            <%= content_tag :span, "delete" %>
+  <div class="micropost_display">
+    <div>
+      <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
+    </div>
+    <div class="micropost_component">
+      <div class="shrink_letters">
+        <span class="user">
+          <%= link_to micropost.user.name, micropost.user %>
+        </span>
+        <span class="unique_name">
+          @<%= micropost.user.unique_name %>
+        </span>
+        <span class="timestamp">·
+          <% if micropost.created_at < 1.years.ago %>
+          <%= micropost.created_at.strftime("%-Y年-%-m月-%d日") %>
+          <% elsif micropost.created_at < 1.days.ago %>
+          <%= micropost.created_at.strftime("%-m月%-d日") %>
+          <% else %>
+          <%= micropost.created_at.strftime("%H:%M") %>
           <% end %>
+        </span>
+      </div>
+      <% if micropost.reply_micropost.present? %>
+        <div>
+          <span class="destination_unique_name">
+            Reply_to: @<%= link_to micropost.reply_to.user.unique_name,
+                                   micropost.reply_to.user %>
+          </span>
+        </div>
+      <% end %>
+      <div>
+        <%= link_to(micropost, class: "no_decoration") do %>
+          <div class="content"><%= micropost.content %><%= image_tag micropost.picture.url if micropost.picture? %></div>
         <% end %>
       </div>
-    <% end %>
-  </span>
+      <div class="btns_for_micropost">
+        <span class="like">
+          <% if logged_in? && micropost.likes.find_by(user_id: current_user.id) %>
+            <%= form_for(micropost.likes.find_by(user_id: current_user.id), method: :delete, remote: true) do |f| %>
+              <%= button_tag(class: "btn btn-default btn-xs unlike_btn like_btns") do %>
+                <%= content_tag :i, "", class: "glyphicon glyphicon-heart"  %>
+                <%= content_tag :span, "#{micropost.likes_count}", class: "likes_count" %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= form_for(micropost.likes.build, remote: true) do |f| %>
+              <div><%= hidden_field_tag :micropost_id, micropost.id %></div>
+              <%= button_tag(class: "btn btn-default btn-xs like_btn like_btns
+                                    #{'login_required' unless logged_in?}",
+                                    data: { btn: 'like' }) do %>
+                <%= content_tag :i, "", class: "glyphicon glyphicon-heart-empty",
+                                        aria: { hidden: true } %>
+                <%= content_tag :span, "#{micropost.likes_count}", class: "likes_count" %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </span>
+        <span class="reply">
+          <%= button_tag(class: "btn btn-default btn-xs reply_btn
+                                #{'login_required' unless logged_in?}",
+                                data: { btn: 'reply' }) do %>
+            <%= content_tag :i , "", class: "glyphicon glyphicon-comment",
+                                     aria: { hidden: true } %>
+            <%= content_tag :sapn, "#{micropost.replies_count}" %>
+          <% end %>
+        </span>
+        <span class="edit_micropost">
+          <% if current_user?(micropost.user) %>
+
+            <%= button_tag(class: "btn btn-default btn-xs edit_btn") do %>
+              <%= content_tag :i, "", class: "glyphicon glyphicon-edit" %>
+            <% end %>
+            <div class="edit_micropost_screen">
+              <%= form_for(micropost, method: :delete) do |f| %>
+                <%= button_tag(class: "btn  btn-xs" ) do %>
+                  <%= content_tag :i, "", class: "glyphicon glyphicon-trash",
+                                          aria: { hidden: true } %>
+                  <%= content_tag :span, "delete" %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </span>
+      </div>
+    </div>
+  </div>
   <div class="reply_form">
     <% if logged_in? %>
       <%= button_tag "x", class: "close_reply_form" %>
@@ -104,9 +92,12 @@
         <%= hidden_field_tag :destination_id, micropost.id %>
         <%= f.text_area :content, placeholder: "Compose for reply...",
                                   class: "reply_text_area"%>
-        <div class="flex-reply-from">
-          <span class="picture reply_picture">
-            <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+        <div class="flex-from">
+          <span class="picture">
+            <%= f.label :picture, class: "filelabel" do %>
+              <%= button_tag "Picture", class: "btn btn-primary" %>
+              <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+            <% end %>
           </span>
           <span>
             <%= f.submit "Reply", class: "btn btn-primary reply_form_button" %>

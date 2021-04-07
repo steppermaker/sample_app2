@@ -26,7 +26,7 @@ class LikeMicropostsTest < ActionDispatch::IntegrationTest
 
   test "like micropost" do
     get root_path
-    assert_select "span.content", text: @micropost.content
+    assert_select "div.content", text: @micropost.content
     assert_not @micropost.like?(@user)
     assert_difference "Like.count" do
       post likes_path, params: { micropost_id: @micropost.id }

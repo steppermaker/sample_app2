@@ -1,4 +1,4 @@
-<span class="like like_ajx">
+<span class="like">
   <% if micropost.like?(current_user) %>
     <%= form_for(micropost.likes.find_by(user_id: current_user.id), method: :delete, remote: true) do |f| %>
       <%= button_tag(class: "btn btn-default btn-xs unlike_btn") do %>

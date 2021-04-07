@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function(){
-  let clicked = false;
+  var clicked = false;
   $('.menu').click(function(){
     $(this).toggleClass('toggle');
     clicked = !clicked;
@@ -9,8 +9,8 @@ $(document).on('turbolinks:load', function(){
       $('.nav-flex').hide();
     }
   });
-  const mediaQueryList = window.matchMedia('(min-width: 768px)');
-  const listener = (mql) => {
+  var mediaQueryList = window.matchMedia('(min-width: 768px)');
+  function listener(mql) {
     if(mql.matches){
       $('.nav-flex').show();
       $('.menu').removeClass('toggle')
