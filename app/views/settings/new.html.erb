@@ -1,0 +1,17 @@
+<% provide(:title, "Setting") %>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <h1>Setting</h1>
+    <ol class="setting">
+      <li>
+        <%= link_to "Change name" ,change_name_settings_path %>
+      </li>
+      <li>
+        <%= link_to "Change email", change_email_settings_path %>
+      </li>
+      <li>
+        <%= link_to "Change password", change_password_settings_path %>
+      </li>
+    </ol>
+  </div>
+</div>

@@ -1,7 +1,7 @@
-<%= form_tag(path, method: :get, class: "search_form") do %>
-    <%= search_field_tag "q", params[:q], class: "form-control sbox",
+<%= form_with(url: path, method: :get, local: true, class: "search_form") do |f| %>
+    <%= f.search_field :q, class: "form-control sbox",
                               placeholder: "Search ..." %>
-    <%= button_tag "Search...", class: "sbtn" do %>
+    <%= f.button "Search...", class: "sbtn" do %>
       <%= content_tag :i, "", class: "glyphicon glyphicon-search"  %>
     <% end %>
 <% end %>

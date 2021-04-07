@@ -31,7 +31,7 @@ class User < ApplicationRecord
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :password, presence: true, length: { minimum: 6 }
   VALID_UNIQUE_NAME_REGEX = /\A[a-z0-9_]+\z/i
   validates :unique_name, presence: true, length: { in: 5..15 },
                                           format: { with: VALID_UNIQUE_NAME_REGEX},

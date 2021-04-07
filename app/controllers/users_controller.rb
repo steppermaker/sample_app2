@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index ,:edit, :update, :destroy,
+  before_action :logged_in_user, only: [:index, :update, :destroy,
                                         :following, :followers,
                                         :new_messages, :likes]
   before_action :correct_user,   only: [:edit, :update, :new_messages,
@@ -39,15 +39,45 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit
-  end
-
   def update
-    if @user.update_attributes(user_params_for_update)
-      flash[:success] = "Profile update"
-      redirect_to @user
+    case params[:change]
+    when "name"
+      if @user.authenticate(params[:user][:password])
+        if @user.update_attributes(user_params_for_name_update)
+          flash[:success] = "Name update"
+          redirect_to @user
+        else
+          render 'settings/change_name'
+        end
+      else
+        flash.now[:danger] = 'Wrong password'
+        render 'settings/change_name'
+      end
+    when "email"
+      if @user.authenticate(params[:user][:password])
+        if @user.update_attributes(user_params_for_email_update)
+          flash[:success] = "Email update"
+          redirect_to @user
+        else
+          render 'settings/change_email'
+        end
+      else
+        flash.now[:danger] = 'Wrong password'
+        render 'settings/change_email'
+      end
+    when "password"
+      if @user.authenticate(params[:user][:current_password])
+        if @user.update_attributes(user_params_for_password_update)
+          flash[:success] = "Password update"
+          redirect_to @user
+        else
+          render 'settings/change_password'
+        end
+      else
+        flash.now[:danger] = 'Wrong current password'
+        render 'settings/change_password'
+      end
     else
-      render 'edit'
     end
   end
 
@@ -92,10 +122,18 @@ class UsersController < ApplicationController
                                    :unique_name)
     end
 
-    def user_params_for_update
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+    def user_params_for_name_update
+      params.require(:user).permit(:name, :password, :password_confirmation)
+                                  .merge(password_confirmation: params[:user][:password])
+    end
 
+    def user_params_for_email_update
+      params.require(:user).permit(:email, :password, :password_confirmation)
+                                  .merge(password_confirmation: params[:user][:password])
+    end
+
+    def user_params_for_password_update
+      params.require(:user).permit(:password, :password_confirmation)
     end
 
     def correct_user

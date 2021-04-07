@@ -816,3 +816,27 @@ a.no_decoration {
 input#micropost_picture {
   display: none;
 }
+
+/* setting */
+
+.setting {
+  text-align: center;
+  background-color: #f7f7f7;
+  list-style: none;
+  padding: 0;
+  li {
+    padding: 5px;
+    border: solid #959595;
+    border-width: 1px 1px 0 1px;
+    &:last-child {
+      border-width: 1px;
+    }
+    a {
+      color: #3ba4ff;
+      font-size: 18px;
+      &:hover {
+      color: #3ba4ff;
+      }
+    }
+  }
+}

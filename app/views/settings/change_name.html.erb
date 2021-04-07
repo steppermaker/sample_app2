@@ -1,0 +1,20 @@
+<% provide(:title, "Change name") %>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h1>Change name</h1>
+    <%= form_for(@user) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= hidden_field_tag :change, "name" %>
+
+      <%= f.label :password, "Password" %>
+      <%= link_to "(forgot password)", new_password_reset_path %>
+      <%= f.password_field :password, class: "form_control" %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "form_control" %>
+      <%= f.submit "Change password", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

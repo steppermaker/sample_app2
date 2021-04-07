@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'settings/new'
+
   get 'likes/create'
 
   get 'likes/destroy'
@@ -14,7 +16,7 @@ Rails.application.routes.draw do
   get     '/login',   to: 'sessions#new'
   post    '/login',   to: 'sessions#create'
   delete  '/logout',  to: 'sessions#destroy'
-  resources :users do
+  resources :users, except: :edit do
     member do
       get :following, :followers, :unread_messages, :likes
     end
@@ -24,6 +26,13 @@ Rails.application.routes.draw do
       get :likes
     end
   end
+
+  resources :settings, only: [:new] do
+    collection do
+      get :change_name, :change_password, :change_email
+    end
+  end
+
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :relationships,       only: [:create, :destroy]
