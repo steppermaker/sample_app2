@@ -23,13 +23,11 @@
         </div>
       <% end %>
       <div>
-        <%= link_to(micropost, class: "no_decoration") do %>
-          <div class="show_content"><%= micropost.content %></div>
-          <div class="micropost_picture">
-            <%= image_tag micropost.picture.url if micropost.picture? %>
-          </div>
-        <% end %>
-        <div class="">
+        <div class="show_content"><%= micropost.content %></div>
+        <div class="micropost_picture">
+          <%= image_tag micropost.picture.url if micropost.picture? %>
+        </div>
+        <div>
           <span class="timestamp">
             <%= micropost.created_at.strftime("%H:%M · %-Y年%-m月%d日") %>
           </span>
@@ -37,7 +35,8 @@
       </div>
       <div class="show_micropost_status">
         <span class="counts">
-          <%= link_to likes_micropost_path(micropost) do %>
+          <%= link_to likes_micropost_path(micropost),
+              class: "#{'login_required' unless logged_in?}" do %>
             <b><%= micropost.likes_count %></b> likes
           <% end %>
         </span>
@@ -45,7 +44,7 @@
           <b><%= micropost.replies_count %></b> replies
         </span>
       </div>
-      <div class="btns_for_micropost">
+      <div class="btns_for_micropost show_micropost_btns">
         <span class="like">
           <% if logged_in? && micropost.likes.find_by(user_id: current_user.id) %>
             <%= form_for(micropost.likes.find_by(user_id: current_user.id), method: :delete, remote: true) do |f| %>

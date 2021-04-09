@@ -7,7 +7,7 @@ class RoomsController < ApplicationController
     if Entry.where(user_id: current_user.id, room_id: @room.id).exists?
       @talk_to = @room.talking_user(current_user)
       if current_user.mutual_follow?(@talk_to)
-        @messages = @room.messages.includes(:user).k_page(params[:page]).per(5)
+        @messages = @room.messages.includes(:user).page(params[:page]).per(5)
         if @messages.total_pages < params[:page].to_i
           @page = "last"
         else

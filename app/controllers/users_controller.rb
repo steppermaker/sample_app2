@@ -1,22 +1,23 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :update, :destroy,
                                         :following, :followers,
-                                        :new_messages, :likes]
-  before_action :correct_user,   only: [:edit, :update, :new_messages,
+                                        :new_messages, :unread_messages,
                                         :likes]
+  before_action :correct_user,   only: [:edit, :update, :new_messages,
+                                        :unread_messages, :likes]
   before_action :admin_user,     only: :destroy
 
   def index
     if params[:q]
-      @users = User.search_by_keyword(params[:q]).k_page(params[:page])
+      @users = User.search_by_keyword(params[:q]).page(params[:page])
     else
-      @users = User.where(activated: true).k_page(params[:page])
+      @users = User.where(activated: true).page(params[:page])
     end
   end
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.includes(:user).k_page(params[:page])
+    @microposts = @user.microposts.includes(:user).page(params[:page])
     if logged_in?
       room_switch(@user)
       @unread_count = current_user.unread_messages_count if current_user?(@user)
@@ -65,25 +66,25 @@ class UsersController < ApplicationController
   def following
     @title = "Following"
     @user  = User.find(params[:id])
-    @users = @user.following.k_page(params[:page])
+    @users = @user.following.page(params[:page])
     render 'show_follow'
   end
 
   def followers
     @title = "Followers"
     @user  = User.find(params[:id])
-    @users = @user.followers.k_page(params[:page])
+    @users = @user.followers.page(params[:page])
     render 'show_follow'
   end
 
   def unread_messages
     @messages = current_user.unread_messages.select(:room_id, :user_id)
-                            .distinct.k_page(params[:page])
+                            .distinct.page(params[:page])
     render 'show_unread_message_rooms'
   end
 
   def likes
-    @microposts = @user.likes_microposts.includes(:user).k_page(params[:page])
+    @microposts = @user.likes_microposts.includes(:user).page(params[:page])
     render 'favorite_microposts'
   end
 

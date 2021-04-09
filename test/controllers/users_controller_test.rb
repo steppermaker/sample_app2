@@ -62,4 +62,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get followers_user_path(@user)
     assert_redirected_to login_url
   end
+
+  test "should rediect favorite microposts when not logged in" do
+    get likes_user_path(@user)
+    assert_redirected_to login_url
+  end
+
+  test "should rediect unread messages when not logged in" do
+    get unread_messages_user_path(@user)
+    assert_redirected_to login_url
+  end
 end

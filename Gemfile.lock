@@ -51,8 +51,6 @@ GEM
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
-    bootstrap-will_paginate (1.0.0)
-      will_paginate
     builder (3.2.4)
     carrierwave (1.2.2)
       activemodel (>= 4.0.0)
@@ -283,7 +281,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loofah (2.9.0)
+    loofah (2.9.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
@@ -294,7 +292,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2021.0225)
     mini_magick (4.7.0)
-    mini_mime (1.0.2)
+    mini_mime (1.1.0)
     mini_portile2 (2.4.0)
     minitest (5.10.3)
     minitest-reporters (1.1.14)
@@ -415,7 +413,6 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    will_paginate (3.1.6)
     xml-simple (1.1.8)
     xmlrpc (0.3.2)
       webrick
@@ -426,7 +423,6 @@ PLATFORMS
 DEPENDENCIES
   bcrypt (= 3.1.12)
   bootstrap-sass (= 3.3.7)
-  bootstrap-will_paginate (= 1.0.0)
   byebug (= 9.0.6)
   carrierwave (= 1.2.2)
   coffee-rails (= 4.2.2)
@@ -454,7 +450,6 @@ DEPENDENCIES
   tzinfo-data
   uglifier (= 3.2.0)
   web-console (= 3.5.1)
-  will_paginate (= 3.1.6)
 
 BUNDLED WITH
    2.1.4

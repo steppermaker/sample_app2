@@ -478,17 +478,13 @@ input {
   color: #009def;
   font-size: 3em;
   line-height: 1em;
-  :hover {
-    color: #009def;
-    background-color: aqua;
-  }
 }
 
 @media screen and (max-width: 576px) {
   .login_required_display {
-    width: 100%;
-    height:100%;
-    border-radius: 0;
+    width: 100%!important;
+    height:100%!important;
+    border-radius: 0!important;
   }
   .microposts {
     width: 100%!important;
@@ -499,7 +495,6 @@ input {
   .col-md-8 {
     padding: 0;
   }
-
 }
 
 .user_status_and_form {
@@ -557,15 +552,20 @@ h1.no-center {
   }
 }
 
-.shrink_uniqe_name {
+.micropost_user_name {
   display: flex;
-  span {
-    margin-right: 5px;
-  }
+}
+
+.shrink_names {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 
 .unique_name {
+  margin-right: 5px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -573,7 +573,10 @@ h1.no-center {
 }
 
 .user {
-  flex-shrink: 0;
+  margin-right: 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   a , a:hover{
     color: #000000;
     font-weight: bold;
@@ -594,8 +597,12 @@ h1.no-center {
   display: flex;
 }
 
-.show_micropost_hover:hover {
-  background: none!important;
+.show_micropost_hover {
+  border-top: none!important;
+  padding-top: 0!important;
+  &:hover {
+    background: none!important;
+  }
 }
 
 .show_micropost_display{
@@ -616,6 +623,10 @@ h1.no-center {
 
 .show_content {
   font-size: 2em;
+}
+
+.show_micropost_btns {
+  padding-left: 60px;
 }
 
 aside {
@@ -729,6 +740,7 @@ a.no_decoration {
   border-bottom: 1px solid #e8e8e8;
   border-top: 1px solid #e8e8e8;
   margin: 10px 0;
+  padding-left: 60px;
   b {
     color: black;
   }

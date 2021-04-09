@@ -27,10 +27,12 @@ this.onPageLoad(["microposts#show","microposts#likes",
     function show_login_required(e) {
       e.preventDefault();
       var btn = $(e.target).data("btn");
-      if ( 'like' == btn) {
+      if ('like' == btn) {
         $('.login_or_new_user h1').text("Like your favorite microposts!");
-      } else {
+      } else if ("reply" == btn) {
         $('.login_or_new_user h1').text("Reply and join the conversation!");
+      } else {
+        $('.login_or_new_user h1').text("Would you like to express yourself?");
       }
 
       $('.show_login_required').show();

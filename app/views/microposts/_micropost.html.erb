@@ -4,18 +4,20 @@
       <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
     </div>
     <div class="micropost_component">
-      <div class="shrink_uniqe_name">
-        <span class="user">
-          <%= link_to micropost.user.name, micropost.user %>
-        </span>
-        <span class="unique_name">
-          @<%= micropost.user.unique_name %>
-        </span>
+      <div class="micropost_user_name">
+        <div class="shrink_names">
+          <span class="user">
+            <%= link_to micropost.user.name, micropost.user %>
+          </span>
+          <span class="unique_name">
+            @<%= micropost.user.unique_name %>
+          </span>
+        </div>
         <span class="timestamp">
           <% if micropost.created_at < 1.years.ago %>
-            <%= "·#{micropost.created_at.strftime("%-Y年%-m月%d日")}" %>
+            <%= "· #{micropost.created_at.strftime("%-Y年%-m月%d日")}" %>
           <% elsif micropost.created_at < 1.days.ago %>
-            <%= "·#{micropost.created_at.strftime("%-m月%d日")}" %>
+            <%= "· #{micropost.created_at.strftime("%-m月%d日")}" %>
           <% else %>
             <%= "· #{micropost.created_at.strftime("%H:%M")}" %>
           <% end %>

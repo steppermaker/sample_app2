@@ -40,4 +40,10 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
     assert micropost.has_reply?(reply)
     assert_redirected_to micropost_path(micropost)
   end
+
+  test "should rediect micropost likes when not logged in" do
+    get likes_micropost_path(@micropost)
+    assert_redirected_to login_url
+  end
+
 end

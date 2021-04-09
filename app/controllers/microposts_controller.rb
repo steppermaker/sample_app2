@@ -1,11 +1,11 @@
 class MicropostsController < ApplicationController
-  before_action :logged_in_user, only: [:create, :destroy]
+  before_action :logged_in_user, only: [:create, :destroy, :likes]
   before_action :correct_user,   only: :destroy
 
   def show
     @micropost = Micropost.find(params[:id])
     unless  @micropost.replies.blank?
-      @replies = @micropost.replies.includes(:user).k_page(params[:page])
+      @replies = @micropost.replies.includes(:user).page(params[:page])
     end
   end
 
@@ -40,7 +40,7 @@ class MicropostsController < ApplicationController
 
   def likes
     @micropost = Micropost.find(params[:id])
-    @like_users = @micropost.like_users.k_page(params[:page])
+    @like_users = @micropost.like_users.page(params[:page])
     render 'micropost_likes'
   end
 

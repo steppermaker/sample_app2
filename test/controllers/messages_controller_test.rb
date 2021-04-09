@@ -24,7 +24,7 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_url
   end
 
-  test "should redirect create for wrong message" do
+  test "should redirect create for wrong room" do
     log_in_as(@user)
     room = rooms(:second_room)
     assert_no_difference 'Message.count' do
