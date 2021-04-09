@@ -2,14 +2,14 @@
 <div class="row">
   <div class="col-md-12">
     <div id="chats">
-      <ol id="chat" data-page="2">
-        <% if @messages %>
-        <div class="flex-reverse-messages">
-          <%= render @messages %>
-        </div>
-          <%= paginate @messages %>
-        <% end %>
-      </ol>
+      <% if @messages %>
+        <ol id="chat" data-page="2">
+          <div class="flex-reverse-messages">
+            <%= render @messages %>
+          </div>
+        </ol>
+        <%= paginate @messages %>
+      <% end %>
       <div class="posts">
         <%= form_for(@message) do |f| %>
           <%= render 'shared/error_messages', object: f.object %>

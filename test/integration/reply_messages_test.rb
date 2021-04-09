@@ -19,8 +19,8 @@ class ReplyMessagesTest < ActionDispatch::IntegrationTest
       post microposts_path, params: { micropost: { content: "test" },
                                       destination_id: @micropost.id}
     end
-    assert @micropost.has_reply?(Micropost.first)
     reply_micropost = assigns(:micropost)
+    assert @micropost.has_reply?(reply_micropost)
     assert_redirected_to micropost_path(@micropost)
     follow_redirect!
     assert_select "div.content", text: "test"
@@ -32,8 +32,8 @@ class ReplyMessagesTest < ActionDispatch::IntegrationTest
   test "a micropost page display" do
     get micropost_path(@micropost)
     assert_template "microposts/show"
-    assert_select "span.user", text: @micropost.user.name
-    assert_select "span.show_content", text: @micropost.content
+    assert_select "div.user", text: @micropost.user.name
+    assert_select "div.show_content", text: @micropost.content
     assert_select "span.timestamp"
     assert_select ".counts"
     assert_select "span.like"

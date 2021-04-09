@@ -1,32 +1,44 @@
-<% provide(:title, @user.name) %>
+<%= provide(:title, "#{@user.name}") %>
 <div class="row">
-  <aside class="col-md-4">
-    <section class="user_info">
-      <h1>
-        <%= gravatar_for @user %>
-        <%= @user.name %>
-      </h1>
-    </section>
-    <section class="stats">
-      <%= render 'shared/stats' %>
-    </section>
-  </aside>
-  <div class="col-md-8">
-    <% if logged_in? %>
-      <div class="user_button">
-        <%= render 'follow_form' %>
-        <%= render 'rooms/room_button' %>
+  <div class="col-md-8 col-md-offset-2">
+    <div class="show_user_info">
+      <div class="user_display">
+        <div class="show_user_display">
+          <div>
+            <%= gravatar_for @user %>
+          </div>
+          <div class="show_user_name">
+            <%= @user.name %>
+          </div>
+          <div class="show_unique_name">
+            <%= "@#{@user.unique_name}" %>
+          </div>
+          <div class="show_profile"><%= @user.profile %></div>
+        </div>
+        <% if logged_in? %>
+          <div class="user_button">
+            <%= render 'follow_form' %>
+            <%= render 'rooms/room_button' %>
+          </div>
+        <% end %>
       </div>
-    <% end %>
-    <% if @user.microposts.any? %>
-      <div class="flex-microposts">
-        <h3>Microposts <%= @user.microposts.count %></h3>
-        <ol class="microposts">
-          <%= render @microposts %>
-        </ol>
-      <%= paginate @microposts %>
+      <div>
+        <%= render 'shared/stats' %>
       </div>
+    </div>
+    <div>
+      <% if @user.microposts.any? %>
+        <div class="flex-microposts">
+          <ol class="microposts">
+            <%= render @microposts %>
+          </ol>
+          <%= paginate @microposts %>
+        </div>
+      <% end %>
+    </div>
+    <% unless logged_in? %>
+      <%= render "shared/login_required" %>
+      <%= render "shared/login_recommended" %>
     <% end %>
   </div>
-  <%= render "shared/login_required" %>
 </div>

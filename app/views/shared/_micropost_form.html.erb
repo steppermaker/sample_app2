@@ -1,7 +1,7 @@
 <%= form_for(@micropost) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
     <%= f.text_area :content, placeholder: "Compose new micropost..." %>
-  <div class="flex-micropost-form">
+  <div class="flex-form">
     <span>
       <%= f.label :picture, class: "filelabel" do %>
         <%= button_tag "Picture", class: "btn btn-primary" %>

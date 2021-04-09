@@ -6,19 +6,22 @@ User.create!(name: "Example User",
              admin: true,
              activated: true,
              activated_at: Time.zone.now,
-             unique_name: "exsample_user")
+             unique_name: "exsample_user",
+             profile: "Hello World!")
 
 99.times do |n|
   name  = Faker::Name.name
   email = "sample-#{n+1}@railstutorial.org"
   password = "password"
+  profile = Faker::Lorem.sentence(8)
   User.create!(name: name,
                email: email,
                password:              password,
                password_confirmation: password,
                activated: true,
                activated_at: Time.zone.now,
-               unique_name: "sample_#{n+1}")
+               unique_name: "sample_#{n+1}",
+               profile: profile)
 end
 
 # micropost

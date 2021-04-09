@@ -17,6 +17,10 @@ class SettingsController < ApplicationController
     render 'change_password'
   end
 
+  def change_profile
+    render 'change_profile'
+  end
+
   private
 
     def get_current_user

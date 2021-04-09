@@ -13,8 +13,8 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     get user_path(@user)
     assert_template 'users/show'
     assert_select 'title', full_title(@user.name)
-    assert_select 'h1', text: @user.name
-    assert_select 'h1>img.gravatar'
+    assert_select 'div.show_user_name', text: @user.name
+    assert_select 'img.gravatar'
     assert_match @user.microposts.count.to_s, response.body
     assert_select 'ul.pagination'
     @user.microposts.k_page(1).each do |micropost|
@@ -22,7 +22,7 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     end
     assert_select 'div#follow_form', count: 0
     assert_select 'div#room_button', count: 0
-    assert_select 'div.stats>a', text: 'unread message!', count: 0
+    assert_select 'div.stats>a', text: 'unread', count: 0
   end
 
   test "profile display when logged in" do
@@ -31,7 +31,6 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     assert_template 'users/show'
     assert_select 'div#follow_form', count: 0
     assert_select 'div#room_button', count: 0
-    assert_match  'unread message!', response.body
   end
 
   test "mutual_follow_user profile display when logged in" do
@@ -40,6 +39,6 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     assert_template 'users/show'
     assert_select 'div#follow_form'
     assert_select 'div#room_button'
-    assert_select 'div.stats>a', text: 'unread message!', count: 0
+    assert_select 'div.stats>a', text: 'unread', count: 0
   end
 end

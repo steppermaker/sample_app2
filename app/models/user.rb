@@ -36,6 +36,7 @@ class User < ApplicationRecord
   validates :unique_name, presence: true, length: { in: 5..15 },
                                           format: { with: VALID_UNIQUE_NAME_REGEX},
                                           uniqueness: { case_sensitive: false }
+  validates :profile, length: { maximum: 140 }
 
   def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :

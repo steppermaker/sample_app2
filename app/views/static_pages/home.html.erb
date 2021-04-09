@@ -1,15 +1,17 @@
 <% if logged_in? %>
   <div class="row">
     <aside class="col-md-4">
-      <section class="user_info">
-        <%= render 'shared/user_info' %>
-      </section>
-      <section class="stats">
-        <%= render 'shared/stats' %>
-      </section>
-      <section class="micropost_form">
-        <%= render 'shared/micropost_form'  %>
-      </section>
+      <aside class="user_status_and_form">
+        <section class="user_info">
+          <%= render 'shared/user_info' %>
+        </section>
+        <section class="stats">
+          <%= render 'shared/stats' %>
+        </section>
+        <section class="micropost_form">
+          <%= render 'shared/micropost_form'  %>
+        </section>
+      </aside>
     </aside>
     <div class="col-md-8">
       <div class="flex-microposts">
@@ -24,11 +26,12 @@
       <h1>Latest microposts</h1>
       <div class="flex-microposts">
         <ol class="microposts">
-          <%= render @microposts %>
-          <%= paginate @microposts %>
+          <%= render @feed_items %>
         </ol>
+        <%= paginate @feed_items %>
       </div>
     </div>
   </div>
+  <%= render "shared/login_recommended" %>
   <%= render "shared/login_required" %>
 <% end %>

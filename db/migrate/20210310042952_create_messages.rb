@@ -9,5 +9,6 @@ class CreateMessages < ActiveRecord::Migration[5.1]
     end
     add_index :messages, :user_id
     add_index :messages, :room_id
+    add_index :messages, [:user_id, :created_at]
   end
 end

@@ -5,12 +5,13 @@
     <div class="flex-microposts">
       <ol class="microposts">
         <%= render "show_micropost" ,micropost: @micropost %>
-      <% if @replies %>
-        <%= render @replies %>
-        <%= paginate @replies %>
-      <% end %>
-    </ol>
+        <%= render @replies if @replies %>
+      </ol>
+      <%= paginate @replies if @replies %>
     </div>
   </div>
-  <%= render "shared/login_required" %>
+  <% unless logged_in? %>
+    <%= render "shared/login_required" %>
+    <%= render "shared/login_recommended" %>
+  <% end %>
 </div>

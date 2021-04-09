@@ -4,24 +4,24 @@
       <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
     </div>
     <div class="micropost_component">
-      <div class="shrink_letters">
+      <div class="shrink_uniqe_name">
         <span class="user">
           <%= link_to micropost.user.name, micropost.user %>
         </span>
         <span class="unique_name">
           @<%= micropost.user.unique_name %>
         </span>
-        <span class="timestamp">·
+        <span class="timestamp">
           <% if micropost.created_at < 1.years.ago %>
-          <%= micropost.created_at.strftime("%-Y年-%-m月-%d日") %>
+            <%= "·#{micropost.created_at.strftime("%-Y年%-m月%d日")}" %>
           <% elsif micropost.created_at < 1.days.ago %>
-          <%= micropost.created_at.strftime("%-m月%-d日") %>
+            <%= "·#{micropost.created_at.strftime("%-m月%d日")}" %>
           <% else %>
-          <%= micropost.created_at.strftime("%H:%M") %>
+            <%= "· #{micropost.created_at.strftime("%H:%M")}" %>
           <% end %>
         </span>
       </div>
-      <% if micropost.reply_micropost.present? %>
+      <% if micropost.reply_micropost %>
         <div>
           <span class="destination_unique_name">
             Reply_to: @<%= link_to micropost.reply_to.user.unique_name,
@@ -31,7 +31,12 @@
       <% end %>
       <div>
         <%= link_to(micropost, class: "no_decoration") do %>
-          <div class="content"><%= micropost.content %><%= image_tag micropost.picture.url if micropost.picture? %></div>
+          <div class="content"><%= micropost.content %></div>
+          <% if micropost.picture? %>
+            <div class="micropost_picture">
+              <%= image_tag micropost.picture.url %>
+            </div>
+          <% end %>
         <% end %>
       </div>
       <div class="btns_for_micropost">
@@ -92,7 +97,7 @@
         <%= hidden_field_tag :destination_id, micropost.id %>
         <%= f.text_area :content, placeholder: "Compose for reply...",
                                   class: "reply_text_area"%>
-        <div class="flex-from">
+        <div class="flex-form">
           <span class="picture">
             <%= f.label :picture, class: "filelabel" do %>
               <%= button_tag "Picture", class: "btn btn-primary" %>

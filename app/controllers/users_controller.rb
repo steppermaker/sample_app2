@@ -41,42 +41,15 @@ class UsersController < ApplicationController
 
   def update
     case params[:change]
+    when "profile"
+      update_user("profile", @user, user_params_for_profile_update)
     when "name"
-      if @user.authenticate(params[:user][:password])
-        if @user.update_attributes(user_params_for_name_update)
-          flash[:success] = "Name update"
-          redirect_to @user
-        else
-          render 'settings/change_name'
-        end
-      else
-        flash.now[:danger] = 'Wrong password'
-        render 'settings/change_name'
-      end
+      update_user("name", @user, user_params_for_name_update)
     when "email"
-      if @user.authenticate(params[:user][:password])
-        if @user.update_attributes(user_params_for_email_update)
-          flash[:success] = "Email update"
-          redirect_to @user
-        else
-          render 'settings/change_email'
-        end
-      else
-        flash.now[:danger] = 'Wrong password'
-        render 'settings/change_email'
-      end
+      update_user("email", @user, user_params_for_email_update)
     when "password"
-      if @user.authenticate(params[:user][:current_password])
-        if @user.update_attributes(user_params_for_password_update)
-          flash[:success] = "Password update"
-          redirect_to @user
-        else
-          render 'settings/change_password'
-        end
-      else
-        flash.now[:danger] = 'Wrong current password'
-        render 'settings/change_password'
-      end
+      update_user("password", @user, user_params_for_password_update,
+                  :current_password)
     else
     end
   end
@@ -105,7 +78,7 @@ class UsersController < ApplicationController
 
   def unread_messages
     @messages = current_user.unread_messages.select(:room_id, :user_id)
-                         .distinct.k_page(params[:page])
+                            .distinct.k_page(params[:page])
     render 'show_unread_message_rooms'
   end
 
@@ -120,6 +93,11 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password,
                                    :password_confirmation,
                                    :unique_name)
+    end
+
+    def user_params_for_profile_update
+      params.require(:user).permit(:profile, :password, :password_confirmation)
+                                  .merge(password_confirmation: params[:user][:password])
     end
 
     def user_params_for_name_update
@@ -143,6 +121,20 @@ class UsersController < ApplicationController
 
     def admin_user
       redirect_to (root_url) unless current_user.admin?
+    end
+
+    def update_user(target, user, strong_params, password = :password)
+      if user.authenticate(params[:user][password])
+        if user.update_attributes(strong_params)
+          flash[:success] = "Updated #{target}"
+          redirect_to user
+        else
+          render "settings/change_#{target}"
+        end
+      else
+        flash.now[:danger] = 'Wrong password'
+        render "settings/change_#{target}"
+      end
     end
 
     def room_switch(user)

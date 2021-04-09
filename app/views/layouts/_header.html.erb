@@ -1,9 +1,12 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
     <%= link_to "sample app", root_path, id: "logo" %>
+    <div class="search-nav">
+      <%= render "shared/search_form", path: root_path %>
+    </div>
     <div class="for-media">
       <%= link_to root_path do %>
-      <i class="glyphicon glyphicon-home for-media-home"></i>
+        <i class="glyphicon glyphicon-home for-media-home"></i>
       <% end %>
     </div>
     <div class="for-media for-media-search">
@@ -16,11 +19,6 @@
        <div class="bar bar3"></div>
       </div>
       <ul class="nav navbar-nav navbar-right nav-flex">
-        <% if logged_in? %>
-          <li class="search-nav">
-            <%= render "shared/search_form", path: root_path %>
-          </li>
-        <% end %>
         <li><%= link_to "Home",   root_path %></li>
         <li><%= link_to "Help",   help_path %></li>
         <% if logged_in? %>

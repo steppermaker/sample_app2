@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   resources :settings, only: [:new] do
     collection do
-      get :change_name, :change_password, :change_email
+      get :change_name, :change_password, :change_email, :change_profile
     end
   end
 

@@ -19,6 +19,9 @@ class SettingAndUserEditTest < ActionDispatch::IntegrationTest
     get change_password_settings_path
     assert_redirected_to login_path
 
+    get change_profile_settings_path
+    assert_redirected_to login_path
+
     log_in_as(@user)
     get new_setting_path
     assert_template "settings/new"
@@ -26,6 +29,7 @@ class SettingAndUserEditTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", change_name_settings_path, text: "Change name"
     assert_select "a[href=?]", change_email_settings_path, text: "Change email"
     assert_select "a[href=?]", change_password_settings_path, text: "Change password"
+    assert_select "a[href=?]", change_profile_settings_path, text: "Change profile"
   end
 
   test "update user name" do
@@ -45,7 +49,7 @@ class SettingAndUserEditTest < ActionDispatch::IntegrationTest
                                       change: "name" }
     assert_redirected_to user_path(@user)
     follow_redirect!
-    assert_select "h1", text: "Sample"
+    assert_select "div.show_user_name", text: "Sample"
   end
 
   test "update user email" do
@@ -113,5 +117,23 @@ class SettingAndUserEditTest < ActionDispatch::IntegrationTest
     assert_not is_logged_in?
     post login_path params: { session: { email: @user.email, password: "new_password" } }
     assert is_logged_in?
+  end
+
+  test "update profile" do
+    log_in_as(@user)
+    get change_profile_settings_path
+    assert_template "settings/change_profile"
+    new_profile = "update profile"
+    patch user_path(@user), params: { user: { profile: new_profile, password: "" },
+                                      change: "profile"}
+    assert_template "settings/change_profile"
+    assert_not flash.empty?
+
+    patch user_path(@user), params: { user: { profile: new_profile, password: "password" },
+                                      change: "profile"}
+    assert_redirected_to user_path(@user)
+    follow_redirect!
+    assert_not flash.empty?
+    assert_select "div.show_profile", text: new_profile
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210403171756) do
+ActiveRecord::Schema.define(version: 20210407090100) do
 
   create_table "entries", force: :cascade do |t|
     t.integer "user_id"
@@ -40,8 +40,10 @@ ActiveRecord::Schema.define(version: 20210403171756) do
     t.datetime "updated_at", null: false
     t.integer "addressee_user_id"
     t.boolean "read", default: false
+    t.index ["addressee_user_id", "read"], name: "index_messages_on_addressee_user_id_and_read"
     t.index ["addressee_user_id"], name: "index_messages_on_addressee_user_id"
     t.index ["room_id"], name: "index_messages_on_room_id"
+    t.index ["user_id", "created_at"], name: "index_messages_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
@@ -96,6 +98,7 @@ ActiveRecord::Schema.define(version: 20210403171756) do
     t.string "reset_digest"
     t.datetime "reset_sent_at"
     t.string "unique_name"
+    t.text "profile"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["unique_name"], name: "index_users_on_unique_name", unique: true
   end
