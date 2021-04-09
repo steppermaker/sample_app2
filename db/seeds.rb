@@ -71,3 +71,6 @@ second = micropost[1]
 second_replys = micropost[294..295]
 first_replys.each { |micropost| first.add_reply(micropost) }
 second_replys.each { |micropost| second.add_reply(micropost)}
+
+# active_admin
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   get 'settings/new'
 
   get 'likes/create'
@@ -16,11 +18,13 @@ Rails.application.routes.draw do
   get     '/login',   to: 'sessions#new'
   post    '/login',   to: 'sessions#create'
   delete  '/logout',  to: 'sessions#destroy'
+
   resources :users, except: :edit do
     member do
       get :following, :followers, :unread_messages, :likes
     end
   end
+
   resources :microposts, only: [:show, :create, :destroy] do
     member do
       get :likes
