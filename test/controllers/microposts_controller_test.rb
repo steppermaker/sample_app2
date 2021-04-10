@@ -6,6 +6,11 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
     @micropost = microposts(:orange)
   end
 
+  test "should get index" do
+    get microposts_path
+    assert_response :success
+  end
+
   test "should redirect create when not logged in" do
     assert_no_difference 'Micropost.count' do
       post microposts_path, params: { micropost: { content: "Lorem" } }
@@ -45,5 +50,4 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
     get likes_micropost_path(@micropost)
     assert_redirected_to login_url
   end
-
 end

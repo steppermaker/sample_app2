@@ -101,10 +101,9 @@
                                   class: "reply_text_area"%>
         <div class="flex-form">
           <span class="picture">
-            <%= f.label :picture, class: "filelabel" do %>
-              <%= button_tag "Picture", class: "btn btn-primary" %>
-              <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
-            <% end %>
+            <%= f.label :picture, "Picture", class: "btn btn-primary" %>
+            <%= f.file_field :picture, class: 'fileinput',
+                              accept: 'image/jpeg,image/gif,image/png' %>
           </span>
           <span>
             <%= f.submit "Reply", class: "btn btn-primary reply_form_button" %>

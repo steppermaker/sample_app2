@@ -1,0 +1,15 @@
+<% provide(:title, "Microposts") %>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <h1>Microposts</h1>
+    <div class="flex-microposts">
+      <ol class="microposts">
+        <%= render @microposts %>
+      </ol>
+      <%= paginate @microposts %>
+    </div>
+  </div>
+</div>
+<%= render "shared/login_recommended" %>
+<%= render "shared/login_required" %>

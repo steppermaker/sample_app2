@@ -2,6 +2,15 @@ class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :destroy, :likes]
   before_action :correct_user,   only: :destroy
 
+  def index
+    if params[:q]
+      @microposts = Micropost.search_by_keyword(params[:q])
+                             .page(params[:page])
+    else
+      @microposts = Micropost.all.includes(:user).page(params[:page])
+    end
+  end
+
   def show
     @micropost = Micropost.find(params[:id])
     unless  @micropost.replies.blank?
